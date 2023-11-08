@@ -13,7 +13,7 @@ async def on_ready():
 
 @bot.command()
 async def hello(ctx):
-    await ctx.send(f'Merhaba {bot.user}! Ben bir botum!')
+    await ctx.send(f'Hi!')
 
 @bot.command()
 async def heh(ctx, count_heh = 5):
@@ -34,5 +34,8 @@ async def roll(ctx, dice: str):
         return
     result = ', '.join(str(random.randint(1, limit)) for r in range(rolls))
     await ctx.send(result)
+@bot.command()
+async def hint(ctx):
+    await ctx.send(f'Botu güldürmek için "$heh" komudunu, zar atmak için "$roll (sayi)d(sayi)" komudunu, selamlanmak için "$hello" komudunu kullanin.')
 
 bot.run("token")
