@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
-import random
+import random, requests
+import os
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -38,4 +39,32 @@ async def roll(ctx, dice: str):
 async def hint(ctx):
     await ctx.send(f'Botu güldürmek için "$heh" komudunu, zar atmak için "$roll (sayi)d(sayi)" komudunu, selamlanmak için "$hello" komudunu kullanin.')
 
-bot.run("token")
+print(os.listdir('images'))
+@bot.command()
+async def mem(ctx):
+    if random.randint(1,100) == 1:
+        choicemem = (os.listdir('images\mem1.png'))
+    elif random.randint(1,2) == 1:
+        choicemem = (os.listdir('images\mem2.jpg'))
+    else:
+        choicemem = (os.listdir('images\mem3.jpg'))
+    with open(f'images/{choicemem}', 'rb') as f:
+        # Dönüştürülen Discord kütüphane dosyasını bu değişkende saklayalım!
+        picture = discord.File(f)
+   # Daha sonra bu dosyayı bir parametre olarak gönderebiliriz!
+    await ctx.send(file=picture)
+
+def get_duck_image_url():    
+    url = 'https://random-d.uk/api/random'
+    res = requests.get(url)
+    data = res.json()
+    return data['url']
+
+
+@bot.command('duck')
+async def duck(ctx):
+    '''duck komutunu çağırdığımızda, program ordek_resmi_urlsi_al fonksiyonunu çağırır.'''
+    image_url = get_duck_image_url()
+    await ctx.send(image_url)
+
+bot.run("Token")
